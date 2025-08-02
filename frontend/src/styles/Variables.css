@@ -1,0 +1,42 @@
+:root {
+    /* Backgrounds */
+    --bg-primary: #0F1115;
+    --bg-secondary: #1A1D23;
+    --bg-tertiary: #2A2D36;
+
+    /* Text */
+    --text-primary: #E5E7EB;
+    --text-secondary: #9CA3AF;
+    --text-dim: #6B7280;
+
+    /* Button */
+    --btn-primary: #4F88FF;
+    --btn-hover: #2c54e694;
+    --btn-disabled: #4F88FF4D;
+
+    /* Border / Stroke */
+    --border-light: #CED4DA;
+    --border-dark: #2A2D36;
+
+    /* States */
+    --success: #22C55E;
+    --warning: #EAB308;
+    --danger: #EF4444;
+
+    /* Utility */
+    --muted-dark: #3A3D46;
+    --muted-light: #D1D5DB;
+    --stroke-color: #ffffff;
+
+    /* Opacity Variants */
+    --opacity-30: 30%;
+    --opacity-60: 60%;
+
+    /* Mac-style button colors (hardcoded) */
+    --mac-red: #ff605c;
+    --mac-yellow: #ffbd44;
+    --mac-green: #00ca4e;
+
+    /* Shadow */
+    --shadow-dark: rgba(0, 0, 0, 0.4);
+}

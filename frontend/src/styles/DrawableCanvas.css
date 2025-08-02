@@ -1,0 +1,237 @@
+.mainWrapper {
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.canvasWrapper {
+    background-color: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 10px;
+    width: 90vw;
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'SF Mono', monospace;
+    box-shadow: 0 0 20px var(--shadow-dark);
+    animation: fadeSlideIn 0.5s ease forwards;
+}
+
+.canvasHeader {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+    position: relative;
+}
+
+.dotWrapper {
+    z-index: 20;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.red .dot {
+    background-color: var(--mac-red);
+}
+
+.yellow .dot {
+    background-color: var(--mac-yellow);
+}
+
+.green .dot {
+    background-color: var(--mac-green);
+}
+
+.dot:hover {
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+.icon {
+    font-size: 8px;
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.dotWrapper:hover .icon {
+    opacity: 1;
+}
+
+.title {
+    color: var(--text-secondary);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+}
+
+canvas {
+    touch-action: none;
+}
+
+.canvasElement {
+    display: block;
+    margin: 16px auto;
+    border: 2px solid var(--border-dark);
+    border-radius: 10px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+    image-rendering: pixelated;
+}
+
+.hint {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: -6px;
+    margin-bottom: 8px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: 'SF Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--btn-primary);
+    background-color: rgba(30, 144, 255, 0.05);
+    transition: all 0.25s ease;
+}
+
+.btn i {
+    font-size: 16px;
+}
+
+.btn:hover {
+    border: 1px solid rgba(61, 130, 246, 0.6);
+    box-shadow: 0 0 8px var(--btn-hover);
+    background-color: rgba(30, 144, 255, 0.08);
+}
+
+.folderWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border-dark);
+    background-color: var(--bg-secondary);
+    padding: 10px 16px;
+    border-radius: 10px;
+    max-width: fit-content;
+    margin: 80px auto;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.3s ease;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.folderWrapper:hover {
+    border: 1px solid var(--btn-primary);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.folderWrapper .fa-folder {
+    font-size: 18px;
+    color: var(--btn-primary);
+}
+
+.folderLabel {
+    font-size: 16px;
+    font-family: 'SF Mono', monospace;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    .canvasWrapper {
+        padding: 8px;
+        margin: 20px auto;
+    }
+
+    .canvasElement {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hint {
+        font-size: 12px;
+    }
+
+    .title {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .canvasHeader span {
+        width: 95%;
+        text-align: end;
+    }
+
+    .canvasElement {
+        height: 300px !important;
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        transform: scale(0.75);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.75);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
