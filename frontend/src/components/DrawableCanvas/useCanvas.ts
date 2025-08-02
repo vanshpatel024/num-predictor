@@ -13,15 +13,25 @@ export const useCanvas = (
         if (!canvas) return;
 
         const resizeCanvas = () => {
-            const containerWidth = canvas.parentElement?.offsetWidth || 700;
-            const canvasWidth = Math.min(containerWidth - 32, 700);
-            const canvasHeight = window.innerWidth < 500 ? 300 : 200;
+            const canvas = canvasRef.current;
+            if (!canvas) return;
 
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
+            const containerWidth = canvas.parentElement?.offsetWidth || 700;
+            const canvasCSSWidth = Math.min(containerWidth - 32, 700);
+            const canvasCSSHeight = window.innerWidth < 500 ? 300 : 200;
+
+            const dpr = window.devicePixelRatio || 1;
+
+            canvas.style.width = `${canvasCSSWidth}px`;
+            canvas.style.height = `${canvasCSSHeight}px`;
+
+            canvas.width = canvasCSSWidth * dpr;
+            canvas.height = canvasCSSHeight * dpr;
 
             const context = canvas.getContext('2d');
             if (!context) return;
+
+            context.scale(dpr, dpr); // <-- This is the key for pixel-perfect rendering
 
             const rootStyles = getComputedStyle(document.documentElement);
             context.lineCap = 'round';
@@ -29,7 +39,9 @@ export const useCanvas = (
             context.lineWidth = 8;
             context.strokeStyle = rootStyles.getPropertyValue('--stroke-color').trim();
             context.fillStyle = rootStyles.getPropertyValue('--bg-tertiary').trim();
-            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Note: fillRect uses CSS width/height not scaled dimensions
+            context.fillRect(0, 0, canvasCSSWidth, canvasCSSHeight);
 
             setCtx(context);
         };
