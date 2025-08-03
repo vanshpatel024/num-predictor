@@ -25,9 +25,7 @@ export const predictDigit = (canvas: HTMLCanvasElement): Promise<string> => {
             const formData = new FormData();
             formData.append('file', blob, 'digit.png');
 
-            // dynamically detecting localhost
             const isLocalhost = window.location.hostname === 'localhost';
-
             const BASE_URL = isLocalhost
                 ? process.env.REACT_APP_API_BASE_URL
                 : process.env.REACT_APP_API_PROD_URL;
@@ -38,7 +36,9 @@ export const predictDigit = (canvas: HTMLCanvasElement): Promise<string> => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    if (data.prediction !== undefined) {
+                    if (data.prediction === "NO_DIGIT_FOUND") {
+                        reject("Please draw something on the canvas.");
+                    } else if (data.prediction !== undefined) {
                         resolve(`Prediction: ${data.prediction}`);
                     } else {
                         reject('Prediction failed');

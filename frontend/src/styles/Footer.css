@@ -1,0 +1,13 @@
+.footer {
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-dim);
+    letter-spacing: 0.4px;
+
+    bottom: 0;
+    z-index: 1000;
+    border-top: 1px solid var(--border-dark);
+}

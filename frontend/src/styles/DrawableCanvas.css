@@ -103,6 +103,11 @@ canvas {
     margin-top: -10px;
 }
 
+.hint.glow {
+    color: var(--mac-green);
+    text-shadow: 0 2 4px var(--btn-hover);
+}
+
 .buttonGroup {
     display: flex;
     justify-content: center;

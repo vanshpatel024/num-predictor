@@ -84,3 +84,30 @@ export const drawTouch = (
     ctx.lineTo(x, y);
     ctx.stroke();
 };
+
+export const isCanvasEmpty = (canvas: HTMLCanvasElement): boolean => {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return true;
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+    // Get first pixel color
+    const r0 = imageData[0];
+    const g0 = imageData[1];
+    const b0 = imageData[2];
+    const a0 = imageData[3];
+
+    for (let i = 4; i < imageData.length; i += 4) {
+        const r = imageData[i];
+        const g = imageData[i + 1];
+        const b = imageData[i + 2];
+        const a = imageData[i + 3];
+
+        if (r !== r0 || g !== g0 || b !== b0 || a !== a0) {
+            return false;
+        }
+    }
+
+    return true;
+};
+

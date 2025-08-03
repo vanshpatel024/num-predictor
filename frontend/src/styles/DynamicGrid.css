@@ -1,0 +1,27 @@
+.dynamic-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
+    background-image:
+        linear-gradient(to right, rgba(61, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(61, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: moveGrid 50s linear infinite;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(61, 130, 246, 0.3));
+    opacity: 0.5;
+}
+
+/* Animate grid movement */
+@keyframes moveGrid {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 500px 500px;
+    }
+}

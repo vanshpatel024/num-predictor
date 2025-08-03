@@ -1,13 +1,21 @@
 import React from 'react';
 import DrawableCanvas from '../components/DrawableCanvas/DrawableCanvas';
+import DynamicGrid from '../components/DynamicGrid';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import '../styles/Home.css';
 
 const Home = () => {
     return (
-        <>
-            <DrawableCanvas />
-        </>
-    )
-}
+        <div className="home-container">
+            <Header />
+            <main className="home-main">
+                <DrawableCanvas />
+                <DynamicGrid />
+            </main>
+            <Footer />
+        </div>
+    );
+};
 
 export default Home;

@@ -12,6 +12,10 @@ def preprocess_and_predict(image_path: str) -> str:
     # Invert white digits on dark background -> black digits on white
     img = cv2.bitwise_not(img)
 
+    # Check if image is completely empty (all black or white)
+    if np.std(img) < 5:  # Very little variance means blank
+        return "NO_DIGIT_FOUND"
+
     blurred = cv2.GaussianBlur(img, (5, 5), 0)
     _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
@@ -21,6 +25,9 @@ def preprocess_and_predict(image_path: str) -> str:
 
     contours, _ = cv2.findContours(eroded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=lambda ctr: cv2.boundingRect(ctr)[0])
+
+    if len(contours) == 0:
+        return "NO_DIGIT_FOUND"
 
     predicted_digits = []
 
@@ -38,5 +45,8 @@ def preprocess_and_predict(image_path: str) -> str:
 
         prediction = np.argmax(model.predict(padded), axis=-1)[0]
         predicted_digits.append(str(prediction))
+
+    if not predicted_digits:
+        return "NO_DIGIT_FOUND"
 
     return ''.join(predicted_digits)

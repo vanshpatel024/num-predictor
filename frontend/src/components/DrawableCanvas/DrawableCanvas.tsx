@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
+    isCanvasEmpty,
     clearCanvas,
     startDrawing as startDrawingUtil,
     draw as drawUtil,
@@ -44,6 +45,11 @@ const DrawableCanvas = () => {
     const handlePredict = async () => {
         const canvas = canvasRef.current;
         if (!canvas) return;
+
+        if (isCanvasEmpty(canvas)) {
+            alert('Please draw on the canvas');
+            return;
+        }
 
         try {
             const result = await predictDigit(canvas);
@@ -93,7 +99,9 @@ const DrawableCanvas = () => {
                                 onTouchMove={drawTouch}
                                 onTouchEnd={stopDrawing}
                             />
-                            <p className="hint">{predictionResult}</p>
+                            <p className={`hint ${predictionResult.startsWith('Prediction:') ? 'glow' : ''}`}>
+                                {predictionResult}
+                            </p>
 
                             <div className="buttonGroup">
                                 <button onClick={handlePredict} className="btn">
