@@ -10,7 +10,8 @@
     z-index: 5;
     flex: 1;
     display: flex;
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically */
-    padding: 1rem;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;    /* Keep horizontal centering */
+    padding: 2rem 1rem;
+    gap: 2rem;              /* Space between canvas and grid */
 }

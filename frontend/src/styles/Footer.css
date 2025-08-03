@@ -6,8 +6,31 @@
     font-weight: 400;
     color: var(--text-dim);
     letter-spacing: 0.4px;
+    gap: 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 
     bottom: 0;
     z-index: 1000;
     border-top: 1px solid var(--border-dark);
+}
+
+.footer-item {
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    cursor: default;
+}
+
+.footer-item:hover {
+    color: var(--btn-primary);
+}
+
+.footer-separator {
+    color: var(--text-dim);
+}
+
+@media screen and (max-width: 768px) {
+    .footer {
+        font-size: 0.72rem;
+    }
 }
