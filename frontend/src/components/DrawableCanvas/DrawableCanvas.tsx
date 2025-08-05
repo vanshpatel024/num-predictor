@@ -23,6 +23,8 @@ const DrawableCanvas = () => {
     const [isCanvasVisible, setIsCanvasVisible] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [predictionResult, setPredictionResult] = useState<string>('Draw a number');
+    const [isPredicting, setIsPredicting] = useState(false);
+
 
     const closeCanvas = () => setIsCanvasVisible(false);
     const openCanvas = () => setIsCanvasVisible(true);
@@ -62,6 +64,8 @@ const DrawableCanvas = () => {
             return;
         }
 
+        setIsPredicting(true);
+
         try {
             const result = await predictDigit(canvas);
             setPredictionResult(result);
@@ -71,6 +75,8 @@ const DrawableCanvas = () => {
             } else {
                 setPredictionResult('Unexpected error occurred');
             }
+        } finally {
+            setIsPredicting(false);
         }
     };
 
@@ -125,9 +131,19 @@ const DrawableCanvas = () => {
                     </p>
 
                     <div className="buttonGroup">
-                        <button onClick={handlePredict} className="btn">
-                            <i className="fas fa-wand-magic-sparkles"></i> Predict
+                        <button onClick={handlePredict} className="btn" disabled={isPredicting}>
+                            {isPredicting ? (
+                                <>
+                                    <i className="fas fa-circle-notch fa-spin"></i> Predicting...
+                                </>
+                            ) : (
+                                <>
+                                    <i className="fas fa-wand-magic-sparkles"></i> Predict
+                                </>
+                            )}
+
                         </button>
+
                         <button
                             onClick={() => {
                                 clearCanvas(canvasRef.current, ctx);
@@ -138,7 +154,7 @@ const DrawableCanvas = () => {
                             <i className="fas fa-eraser"></i> Clear
                         </button>
                     </div>
-                    
+
                 </div>
             ) : (
                 <div className="folderWrapper" onClick={openCanvas}>
