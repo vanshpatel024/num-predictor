@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+import { UseCanvasTypes } from '../../types/useCanvasTypes';
 
-export const useCanvas = (
-    canvasRef: React.RefObject<HTMLCanvasElement | null>,
-    isCanvasVisible: boolean,
-    startTouchDrawing: any,
-    drawTouch: any,
-    stopDrawing: any,
-    setCtx: React.Dispatch<React.SetStateAction<CanvasRenderingContext2D | null>>
-) => {
+export const useCanvas = ({
+    canvasRef,
+    isCanvasVisible,
+    startTouchDrawing,
+    drawTouch,
+    stopDrawing,
+    setCtx,
+}: UseCanvasTypes) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;

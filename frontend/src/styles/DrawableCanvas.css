@@ -1,5 +1,5 @@
 .mainWrapper {
-    min-height: 400px;
+    min-height: 440px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -176,6 +176,31 @@ canvas {
     white-space: nowrap;
 }
 
+.mainWrapper.fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: var(--bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainWrapper.fullscreen canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.mainWrapper.fullscreen .canvasWrapper {
+    margin: auto;
+}
+
+.mainWrapper.fullscreen .dynamic-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
 @media screen and (max-width: 768px) {
     .canvasWrapper {
         padding: 8px;
@@ -206,7 +231,14 @@ canvas {
     }
 }
 
+@media screen and (max-width: 500px) {
+    .mainWrapper {
+        min-height: 531px;
+    }
+}
+
 @media screen and (max-width: 425px) {
+
     .canvasHeader span {
         width: 95%;
         text-align: end;

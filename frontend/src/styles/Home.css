@@ -10,8 +10,37 @@
     z-index: 5;
     flex: 1;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center;    /* Keep horizontal centering */
+    flex-direction: column;
+    /* Stack children vertically */
+    align-items: center;
+    /* Keep horizontal centering */
     padding: 2rem 1rem;
-    gap: 2rem;              /* Space between canvas and grid */
+    gap: 2rem;
+    /* Space between canvas and grid */
+}
+
+.fullscreen-mode {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.fullscreen-mode .home-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-mode .canvasWrapper {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.fullscreen-mode .hint,
+.fullscreen-mode .buttonGroup {
+    margin-top: 1rem;
 }

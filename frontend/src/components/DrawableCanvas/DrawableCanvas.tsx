@@ -10,14 +10,18 @@ import {
 } from './canvasUtils';
 import { useCanvas } from './useCanvas';
 import { predictDigit } from '../../utils/predict';
+import DynamicGrid from '../DynamicGrid';
 
 import '../../styles/DrawableCanvas.css';
 
 const DrawableCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const [isDrawing, setIsDrawing] = useState(false);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
     const [isCanvasVisible, setIsCanvasVisible] = useState(true);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const [predictionResult, setPredictionResult] = useState<string>('Draw a number');
 
     const closeCanvas = () => setIsCanvasVisible(false);
@@ -40,7 +44,14 @@ const DrawableCanvas = () => {
         drawTouchUtil(e, canvasRef, ctx, isDrawing);
 
     // use effect
-    useCanvas(canvasRef, isCanvasVisible, startTouchDrawing, drawTouch, stopDrawing, setCtx);
+    useCanvas({
+        canvasRef,
+        isCanvasVisible,
+        startTouchDrawing,
+        drawTouch,
+        stopDrawing,
+        setCtx
+    });
 
     const handlePredict = async () => {
         const canvas = canvasRef.current;
@@ -63,70 +74,79 @@ const DrawableCanvas = () => {
         }
     };
 
+    const toggleFullscreen = async () => {
+        if (!document.fullscreenElement && containerRef.current) {
+            await containerRef.current.requestFullscreen();
+            setIsFullscreen(true);
+        } else {
+            await document.exitFullscreen();
+            setIsFullscreen(false);
+        }
+    };
+
     return (
-        <>
-            <div className="mainWrapper">
-                {
-                    isCanvasVisible ? (
-                        <div className="canvasWrapper" >
-                            <div className="canvasHeader">
-                                <div className="dotWrapper red" onClick={closeCanvas} title="Close">
-                                    <span className="dot">
-                                        <i className="fa fa-times icon" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                <div className="dotWrapper yellow" onClick={closeCanvas} title="Minimize">
-                                    <span className="dot">
-                                        <i className="fa fa-minus icon" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                <div className="dotWrapper green" title="Maximize">
-                                    <span className="dot">
-                                        <i className="fa fa-expand icon" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                                <span className="title">digit_recognition.canvas</span>
-                            </div>
+        <div className={`mainWrapper ${isFullscreen ? 'fullscreen' : ''}`} ref={containerRef}>
+            {isFullscreen && <DynamicGrid />} {/* <-- Render grid only in fullscreen */}
 
-                            <canvas
-                                ref={canvasRef}
-                                className="canvasElement"
-                                onMouseDown={startDrawing}
-                                onMouseMove={draw}
-                                onMouseUp={stopDrawing}
-                                onMouseLeave={stopDrawing}
-                                onTouchStart={startTouchDrawing}
-                                onTouchMove={drawTouch}
-                                onTouchEnd={stopDrawing}
-                            />
-                            <p className={`hint ${predictionResult.startsWith('Prediction:') ? 'glow' : ''}`}>
-                                {predictionResult}
-                            </p>
-
-                            <div className="buttonGroup">
-                                <button onClick={handlePredict} className="btn">
-                                    <i className="fas fa-wand-magic-sparkles"></i> Predict
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        clearCanvas(canvasRef.current, ctx);
-                                        setPredictionResult('Draw a number');
-                                    }}
-                                    className="btn"
-                                >
-                                    <i className="fas fa-eraser"></i> Clear
-                                </button>
-                            </div>
-
-                        </div >
-                    ) : (
-                        <div className="folderWrapper" onClick={openCanvas}>
-                            <i className="fa fa-folder" aria-hidden="true"></i>
-                            <span className="folderLabel">Canvas</span>
+            {isCanvasVisible ? (
+                <div className="canvasWrapper">
+                    <div className="canvasHeader">
+                        <div className="dotWrapper red" onClick={closeCanvas} title="Close">
+                            <span className="dot">
+                                <i className="fa fa-times icon" aria-hidden="true"></i>
+                            </span>
                         </div>
-                    )}
-            </div>
-        </>
+                        <div className="dotWrapper yellow" onClick={closeCanvas} title="Minimize">
+                            <span className="dot">
+                                <i className="fa fa-minus icon" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div className="dotWrapper green" onClick={toggleFullscreen} title="Toggle Fullscreen">
+                            <span className="dot">
+                                <i className={`fa ${isFullscreen ? 'fa-compress' : 'fa-expand'} icon`} aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <span className="title">num_recognition.canvas</span>
+                    </div>
+
+                    <canvas
+                        ref={canvasRef}
+                        className="canvasElement"
+                        onMouseDown={startDrawing}
+                        onMouseMove={draw}
+                        onMouseUp={stopDrawing}
+                        onMouseLeave={stopDrawing}
+                        onTouchStart={startTouchDrawing}
+                        onTouchMove={drawTouch}
+                        onTouchEnd={stopDrawing}
+                    />
+                    <p className={`hint ${predictionResult.startsWith('Prediction:') ? 'glow' : ''}`}>
+                        {predictionResult}
+                    </p>
+
+                    <div className="buttonGroup">
+                        <button onClick={handlePredict} className="btn">
+                            <i className="fas fa-wand-magic-sparkles"></i> Predict
+                        </button>
+                        <button
+                            onClick={() => {
+                                clearCanvas(canvasRef.current, ctx);
+                                setPredictionResult('Draw a number');
+                            }}
+                            className="btn"
+                        >
+                            <i className="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                    
+                </div>
+            ) : (
+                <div className="folderWrapper" onClick={openCanvas}>
+                    <i className="fa fa-folder" aria-hidden="true"></i>
+                    <span className="folderLabel">Canvas</span>
+                </div>
+            )}
+        </div>
     );
 };
 
